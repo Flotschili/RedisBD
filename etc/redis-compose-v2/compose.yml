@@ -1,5 +1,9 @@
 version: '3.8'
 # https://hub.docker.com/r/bitnami/redis
+#
+#networks:
+#  app-tier:
+#    driver: bridge
 
 services:
   redis-master:
@@ -10,8 +14,9 @@ services:
       - REDIS_REPLICATION_MODE=master
       - REDIS_PASSWORD=my_master_password
     volumes:
-      - '/path/to/redis-persistence:/bitnami'
-
+      - './redis-persistence:/bitnami'
+#    networks:
+#      - app-tier
   redis-replica:
     image: 'bitnami/redis:latest'
     ports:
@@ -24,3 +29,5 @@ services:
       - REDIS_MASTER_PORT_NUMBER=6379
       - REDIS_MASTER_PASSWORD=my_master_password
       - REDIS_PASSWORD=my_replica_password
+#    networks:
+#      - app-tier
